@@ -1,5 +1,9 @@
 // update the cookie if it exists, if it doesn't, create a new one, lasting 2 years
 Cookie.exists('uid') ? Cookie.set('uid', Cookie.get('uid'), 2*365*24*60) : Cookie.set('uid', Helper.guid(), 2*365*24*60);
+
+// check b cookie
+Cookie.exists('b') ? Cookie.set('b', Cookie.get('b'), 2*365*24*60) : Helper.isPresent(Url.getParameterByName('b')) ? Cookie.set('b', Url.getParameterByName('b'), 2*365*24*60) : null;
+
 // save any utms through as session cookies
 Cookie.setUtms();
 
