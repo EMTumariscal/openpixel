@@ -17,7 +17,15 @@ class Helper {
   // reduces all optional data down to a string
   static optionalData(data) {
     if (Helper.isPresent(data) === false) {
-      return '';
+
+      // get b value from cookies
+      var b = Cookie.get('b')
+      if (Helper.isPresent(b)) {
+        return {"b":b}
+      } else {
+        return '';
+      }
+      
     } else if (typeof data === 'object') {
       // runs Helper.optionalData again to reduce to string in case something else was returned
       return Helper.optionalData(JSON.stringify(data));
