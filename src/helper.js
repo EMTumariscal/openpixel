@@ -19,9 +19,8 @@ class Helper {
     if (Helper.isPresent(data) === false) {
 
       // get b value from cookies
-      var b = Cookie.get('b')
-      if (Helper.isPresent(b)) {
-        return {"b":b}
+      if (Cookie.exists('b')) {
+        return Helper.optionalData({"b":Cookie.get('b')});
       } else {
         return '';
       }
