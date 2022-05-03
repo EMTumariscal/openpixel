@@ -29,6 +29,11 @@
     three.parentNode.insertBefore(two, three)
 }(window, document, 'script', 'JS_URL', 'OPIX_FUNC', 24*60*60*1000);
 OPIX_FUNC("init","ID-XXXXXXXX");
+var dl = '';
 setInterval(function() {
-  OPIX_FUNC("event","pageload");
+  var ndl = window.location.href;
+  if(dl!=ndl) {
+    OPIX_FUNC("event","pageload");
+    dl = ndl;
+  }
 },5000)

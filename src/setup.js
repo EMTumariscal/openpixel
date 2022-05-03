@@ -17,7 +17,7 @@ pixelFunc.process = function(method, value, optional) {
     Config.params[value] = () => optional
   } else if(method === 'event') {
     if(value === 'pageload' && !Config.pageLoadOnce) {
-      Config.pageLoadOnce = true;
+      // Config.pageLoadOnce = true;
       new Pixel(value, pixelFunc.t, optional);
     } else if(value !== 'pageload' && value !== 'pageclose') {
       new Pixel(value, Helper.now(), optional);
