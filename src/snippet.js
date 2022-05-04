@@ -29,11 +29,15 @@
     three.parentNode.insertBefore(two, three)
 }(window, document, 'script', 'JS_URL', 'OPIX_FUNC', 24*60*60*1000);
 OPIX_FUNC("init","ID-XXXXXXXX");
-var dl = '';
-setInterval(function() {
-  var ndl = window.location.href;
-  if(dl!=ndl) {
-    OPIX_FUNC("event","pageload");
-    dl = ndl;
-  }
-},5000)
+OPIX_FUNC("event","pageload");
+setTimeout(function() {
+  OPIX_FUNC("event","pageload-5s");
+  var dl = window.location.href;
+  setInterval(function() {
+    var ndl = window.location.href;
+    if(dl!=ndl) {
+      OPIX_FUNC("event","pageload-sp");
+      dl = ndl;
+    }
+  },5000)
+})
