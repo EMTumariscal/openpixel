@@ -2,9 +2,10 @@
 Cookie.exists('uid') ? Cookie.set('uid', Cookie.get('uid'), 2*365*24*60) : Cookie.set('uid', Helper.guid(), 2*365*24*60);
 
 // check a-b-e cookies
-Cookie.exists('a') ? Cookie.set('a', Cookie.get('a'), 2*365*24*60) : Helper.isPresent(Url.getParameterByName('a')) ? Cookie.set('a', Url.getParameterByName('a'), 2*365*24*60) : null;
-Cookie.exists('b') ? Cookie.set('b', Cookie.get('b'), 2*365*24*60) : Helper.isPresent(Url.getParameterByName('b')) ? Cookie.set('b', Url.getParameterByName('b'), 2*365*24*60) : null;
-Cookie.exists('e') ? Cookie.set('e', Cookie.get('e'), 2*365*24*60) : Helper.isPresent(Url.getParameterByName('e')) ? Cookie.set('e', Url.getParameterByName('e'), 2*365*24*60) : null;
+Helper.isPresent(Url.getParameterByName('a')) ? Cookie.set('a', Url.getParameterByName('a'), 2*365*24*60) : Cookie.exists('a') ? Cookie.set('a', Cookie.get('a'), 2*365*24*60) : null;
+Helper.isPresent(Url.getParameterByName('b')) ? Cookie.set('b', Url.getParameterByName('b'), 2*365*24*60) : Cookie.exists('b') ? Cookie.set('b', Cookie.get('b'), 2*365*24*60) : null;
+Helper.isPresent(Url.getParameterByName('c')) ? Cookie.set('c', Url.getParameterByName('c'), 2*365*24*60) : Cookie.exists('c') ? Cookie.set('c', Cookie.get('c'), 2*365*24*60) : null;
+Helper.isPresent(Url.getParameterByName('e')) ? Cookie.set('e', Url.getParameterByName('e'), 2*365*24*60) : Cookie.exists('e') ? Cookie.set('e', Cookie.get('e'), 2*365*24*60) : null;
 
 // save any utms through as session cookies
 Cookie.setUtms();
