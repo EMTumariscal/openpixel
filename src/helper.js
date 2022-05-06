@@ -23,6 +23,7 @@ class Helper {
         return Helper.optionalData({
           "a":Cookie.get('a'),
           "b":Cookie.get('b'),
+          "c": Cookie.exists('c') ? Cookie.get('c') : '',
           "e":Cookie.get('e'),
         });
       } else {
