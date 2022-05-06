@@ -19,12 +19,12 @@ class Helper {
     if (Helper.isPresent(data) === false) {
 
       // get b value from cookies
-      if (Cookie.exists('b') && Cookie.exists('a') && Cookie.exists('e')) {
+      if (Storage.exists('b') && Storage.exists('a') && Storage.exists('e')) {
         return Helper.optionalData({
-          "a":Cookie.get('a'),
-          "b":Cookie.get('b'),
-          "c": Cookie.exists('c') ? Cookie.get('c') : '',
-          "e":Cookie.get('e'),
+          "a":Storage.get('a'),
+          "b":Storage.get('b'),
+          "c":Storage.get('c'),
+          "e":Storage.get('e'),
         });
       } else {
         return '';
@@ -39,5 +39,18 @@ class Helper {
     } else {
       return String(data);
     }
+  }
+
+  // crear un limite de tiempo para borrar la informacion del local Storage
+  static createTime(){
+    const persistence = Storage.exists('pers') ? +Storage.get('pers') : 8;
+    const date = new Date();
+    date.setDate(date.getDate()+days);
+    return date.getTime().toString();
+  }
+
+  static timeDelete(time){
+    const date = new Date().getTime();
+    return +time < date;
   }
 }
