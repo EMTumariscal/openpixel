@@ -30,14 +30,21 @@
 }(window, document, 'script', 'JS_URL', 'OPIX_FUNC', 24*60*60*1000);
 OPIX_FUNC("init","ID-XXXXXXXX");
 OPIX_FUNC("event","pageload");
+var dl = window.location.href;
 setTimeout(function() {
-  OPIX_FUNC("event","pageload-5s");
-  var dl = window.location.href;
+
+  if(dl.includes('utm_campaign')){
+    console.log('hi');
+    OPIX_FUNC("event","pageload-5s");
+  }
+
   setInterval(function() {
+
     var ndl = window.location.href;
     if(dl!=ndl) {
       OPIX_FUNC("event","pageload-sp");
       dl = ndl;
     }
+
   },5000)
-})
+},5000)
