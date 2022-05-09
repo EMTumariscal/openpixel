@@ -45,7 +45,7 @@ class Helper {
   static createTime(){
     const persistence = Storage.exists('pers') ? +Storage.get('pers') : 8;
     const date = new Date();
-    date.setDate(date.getDate()+days);
+    date.setDate(date.getDate()+persistence);
     return date.getTime().toString();
   }
 
