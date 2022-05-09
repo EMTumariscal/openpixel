@@ -51,8 +51,10 @@ class Storage {
     }
 
     static clear(){
-      var local = window.localStorage;
-      local.clear();
+      const locals = ['utm','a','b','c','e','pers','time'];
+      locals.forEach(function(item){
+        this.delete(item);
+      });
     }
 }
   
