@@ -1,19 +1,4 @@
-//si existen parametros, eliminar todos
-Helper.isPresent(Url.getParameterByName('a')) ? Storage.clear() : null;
-Helper.isPresent(Url.getParameterByName('pers')) ? Storage.set('pers', Url.getParameterByName('pers')) : Storage.set('pers', '8');
-
-// update the cookie if it exists, if it doesn't, create a new one, lasting 2 years
-Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clear() : null ) : Storage.set('time', Helper.createTime());
-Storage.exists('uid') ? Storage.set('uid', Storage.get('uid')) : Storage.set('uid', Helper.guid());
-
-// check a-b-e cookies
-Helper.isPresent(Url.getParameterByName('a')) ? Storage.set('a', Url.getParameterByName('a')) : null;
-Helper.isPresent(Url.getParameterByName('b')) ? Storage.set('b', Url.getParameterByName('b')) : null;
-Helper.isPresent(Url.getParameterByName('c')) ? Storage.set('c', Url.getParameterByName('c')) : null;
-Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParameterByName('e')) : null;
-
-// save any utms through as session cookies
-Storage.setUtms();
+Storage.checkParams();
 
 // process the queue and future incoming commands
 pixelFunc.process = function(method, value, optional) {

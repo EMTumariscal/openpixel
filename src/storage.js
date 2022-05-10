@@ -51,12 +51,31 @@ class Storage {
     }
 
     static clear(){
-      var locals = ['utm','a','b','c','e','pers','time','uid'];
+      var locals = ['utm','a','b','c','e','pers','time'];
       var item = '';
       for (var i = 0, l = locals.length; i < l; i++) {
         item = locals[i];
         this.delete(item);
       }
+    }
+
+    static checkParams(){
+      //si existen parametros, eliminar todos
+      Helper.isPresent(Url.getParameterByName('a')) ? this.clear() : null;
+      Helper.isPresent(Url.getParameterByName('pers')) ? this.set('pers', Url.getParameterByName('pers')) : this.set('pers', '8');
+
+      // update the cookie if it exists, if it doesn't, create a new one, lasting 2 years
+      this.exists('time') ? ( Helper.timeDelete(this.get('time')) ? this.clear() : null ) : this.set('time', Helper.createTime());
+      this.exists('uid') ? this.set('uid', this.get('uid')) : this.set('uid', Helper.guid());
+
+      // check a-b-e cookies
+      Helper.isPresent(Url.getParameterByName('a')) ? this.set('a', Url.getParameterByName('a')) : null;
+      Helper.isPresent(Url.getParameterByName('b')) ? this.set('b', Url.getParameterByName('b')) : null;
+      Helper.isPresent(Url.getParameterByName('c')) ? this.set('c', Url.getParameterByName('c')) : null;
+      Helper.isPresent(Url.getParameterByName('e')) ? this.set('e', Url.getParameterByName('e')) : null;
+
+      // save any utms through as session cookies
+      this.setUtms();
     }
 }
   
