@@ -33,7 +33,10 @@ OPIX_FUNC("event","pageload");
 var dl = window.location.href;
 setTimeout(function() {
 
-  OPIX_FUNC("event","pageload-5s");
+  if(dl.includes('utm_campaign')){
+    console.log('hi');
+    OPIX_FUNC("event","pageload-5s");
+  }
 
   setInterval(function() {
 

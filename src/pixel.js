@@ -8,8 +8,8 @@ class Pixel {
     this.send();
   }
 
-  async buildParams() {
-    const attr = await this.getAttribute();
+  buildParams() {
+    const attr = this.getAttribute();
     for (var index in attr) {
       if (attr.hasOwnProperty(index)) {
         this.setParam(index, attr[index](index));
@@ -17,13 +17,12 @@ class Pixel {
     }
   }
 
-  async getAttribute() {
+  getAttribute() {
     return {
       id:           () => Config.id, // website Id
       uid:          () => Storage.get('uid'), // user Id
       ev:           () => this.event, // event being triggered
       ed:           () => this.optional, // any event data to pass along
-      ip:           async () => await Ip.getIp(), // any event data to pass along
       v:            () => Config.version, // openpixel.js version
       dl:           () => window.location.href, // document location
       rl:           () => document.referrer, // referrer location
