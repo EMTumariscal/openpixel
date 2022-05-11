@@ -15,6 +15,12 @@ Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParamete
 // save any utms through as session cookies
 Storage.setUtms();
 
+const resp = axios.get('https://api.ipify.org?format=json');
+resp.then(function (response){
+  Storage.exists('ip') ? Storage.delete('ip') : null;
+  Storage.set('ip',`${response.data.ip}`)
+})
+
 // process the queue and future incoming commands
 pixelFunc.process = function(method, value, optional) {
   if (method === 'init') {

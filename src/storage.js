@@ -51,7 +51,7 @@ class Storage {
     }
 
     static clear(){
-      var locals = ['utm','a','b','c','e','pers','time','uid'];
+      var locals = ['utm','a','b','c','e','pers','time','ip'];
       var item = '';
       for (var i = 0, l = locals.length; i < l; i++) {
         item = locals[i];
