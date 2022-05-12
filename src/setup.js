@@ -1,25 +1,38 @@
-//si existen parametros, eliminar todos
-Helper.isPresent(Url.getParameterByName('a')) ? Storage.clear() : null;
+//establecer client id
+Helper.isPresent(Url.getParameterByName('uid'))
+  ? Storage.exists('uid') 
+    ? Storage.get('uid')[0]!=='S'
+     ? Storage.delete('uid') && Storage.set('iud',Url.getParameterByName('uid')) : null
+    : null
+  : null;
+
+Storage.exists('uid')
+  ? Helper.isPresent(Url.getParameterByName('uid'))
+    ? Storage.clear() : null
+  : Helper.isPresent(Url.getParameterByName('uid'))
+    ? Storage.set('uid', Url.getParameterByName('uid')) : Storage.set('uid', Helper.guid());
+
 Helper.isPresent(Url.getParameterByName('pers')) ? Storage.set('pers', Url.getParameterByName('pers')) : Storage.set('pers', '8');
 
 // update the cookie if it exists, if it doesn't, create a new one, lasting 2 years
 Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clear() : null ) : Storage.set('time', Helper.createTime());
-Storage.exists('uid') ? Storage.set('uid', Storage.get('uid')) : Storage.set('uid', Helper.guid());
 
 // check a-b-e cookies
 Helper.isPresent(Url.getParameterByName('a')) ? Storage.set('a', Url.getParameterByName('a')) : null;
 Helper.isPresent(Url.getParameterByName('b')) ? Storage.set('b', Url.getParameterByName('b')) : null;
 Helper.isPresent(Url.getParameterByName('c')) ? Storage.set('c', Url.getParameterByName('c')) : null;
 Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParameterByName('e')) : null;
+;
 
 // save any utms through as session cookies
 Storage.setUtms();
 
-const resp = axios.get('https://api.ipify.org?format=json');
-resp.then(function (response){
-  Storage.exists('ip') ? Storage.delete('ip') : null;
-  Storage.set('ip',`${response.data.ip}`)
-})
+if(axios){
+  axios.get('https://api.ipify.org?format=json').then(function (response){
+    Storage.exists('ip') ? Storage.delete('ip') : null;
+    Storage.set('ip',`${response.data.ip}`)
+  })
+}
 
 // process the queue and future incoming commands
 pixelFunc.process = function(method, value, optional) {
