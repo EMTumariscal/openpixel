@@ -12,7 +12,10 @@ Storage.exists('uid')
   : Helper.isPresent(Url.getParameterByName('uid'))
     ? Storage.set('uid', Url.getParameterByName('uid')) : Storage.set('uid', Helper.guid());
 
-Helper.isPresent(Url.getParameterByName('pers')) ? Storage.set('pers', Url.getParameterByName('pers')) : Storage.set('pers', '8');
+Helper.isPresent(Url.getParameterByName('pers'))
+  ? Storage.exist('pers') ? Storage["delete"]('pers') && Storage.set('pers', Url.getParameterByName('pers')) : Storage.set('pers', Url.getParameterByName('pers'))
+  : !Storage.exist('pers') ? Storage.set('pers', '8') : null;
+
 
 // update the cookie if it exists, if it doesn't, create a new one, lasting 2 years
 Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clear() : null ) : Storage.set('time', Helper.createTime());
