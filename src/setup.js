@@ -28,10 +28,39 @@ Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParamete
 Storage.setUtms();
 
 if(axios){
-  axios.get('https://api.ipify.org?format=json').then(function (response){
+  axios.get(Config.iphost).then(function (response){
     Storage.exists('ip') ? Storage.delete('ip') : null;
     Storage.set('ip',`${response.data.ip}`)
   })
+
+  if(Storage.exists('c')){
+    const c = Storage.get('c');
+    axios.get(Config.host+'/campaign?fuid='+c).then(function (response){
+      //hacer calculos para establecer nueva persistencia o eliminar data si esta ya invigente la campaña
+      if(response.data.status === 'active'){
+        const newPers = response.data.persistence;
+        const oldPers = +Storage.get('pers');
+        if(newPers != oldPers){
+
+          const currentDate = new Date();
+          const newDate = new Date(+Storage.get('time'));
+          newDate.setDate(newDate.getDay()-oldPers+newPers);
+
+          if(currentDate.getTime() < newDate.getTime()){
+            Storage.delete('pers');
+            Storage.delete('time');
+            Storage.set('pers', newPers);
+            Storage.set('time', newDate.getTime().toString());
+          } else {
+            Storage.clear();
+          }
+
+        }
+      } else {
+        Storage.clear();
+      }
+    })
+  }
 }
 
 // process the queue and future incoming commands
