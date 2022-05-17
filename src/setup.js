@@ -30,7 +30,7 @@ Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParamete
 // save any utms through as session cookies
 Storage.setUtms();
 
-if(axios){
+if(typeof axios!='undefined'){
   axios.get(Config.iphost).then(function (response){
     Storage.exists('ip') ? Storage.delete('ip') : null;
     Storage.set('ip',`${response.data.ip}`)
