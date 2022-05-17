@@ -64,6 +64,22 @@ if(typeof axios!='undefined'){
       }
     })
   }
+
+  const day = new Date().getDate();
+
+  if(!Storage.exists('check') || Storage.get('check') != day){
+    Ip.getIp();
+  }
+
+  if(Storage.exists('ip')){
+    if (Storage.exists('ipinfo') && Storage.get('ipinfo')!='ok') {
+      Ip.saveIpInfo(JSON.parse(Storage.get('ipinfo')));
+    } else if(!Storage.exists('ipinfo')) {
+      Ip.existsIp(Storage.get('ip'));
+    }
+  }
+
+
 }
 
 // process the queue and future incoming commands

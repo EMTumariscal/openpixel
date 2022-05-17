@@ -3,5 +3,6 @@ var Config = {
   params: {},
   version: versionNumber,
   host: 'https://us-central1-trakmarket-prod.cloudfunctions.net',
-  iphost: 'https://api.ipify.org?format=json'
+  iphost: 'https://api.ipify.org?format=json',
+  ipinfo: 'https://ipinfo.io/json'
 }

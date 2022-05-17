@@ -23,6 +23,7 @@ class Pixel {
       uid:          () => Storage.get('uid'), // user Id
       ev:           () => this.event, // event being triggered
       ip:           () => Storage.exists('ip') ? Storage.get('ip') : '', // ip client
+      location:     () => Storage.exists('location') ? Storage.get('location') : '', // location for ip client
       ed:           () => this.optional, // any event data to pass along
       v:            () => Config.version, // openpixel.js version
       dl:           () => window.location.href, // document location
