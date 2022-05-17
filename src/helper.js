@@ -46,7 +46,7 @@ class Helper {
     const persistence = Storage.exists('pers') ? +Storage.get('pers') : 8;
     const date = new Date();
     date.setDate(date.getDate()+persistence);
-    return date.getTime().toString();
+    return date.toISOString();
   }
 
   static timeDelete(time){

@@ -13,8 +13,8 @@ Storage.exists('uid')
     ? Storage.set('uid', Url.getParameterByName('uid')) : Storage.set('uid', Helper.guid());
 
 Helper.isPresent(Url.getParameterByName('pers'))
-  ? Storage.exist('pers') ? Storage["delete"]('pers') && Storage.set('pers', Url.getParameterByName('pers')) : Storage.set('pers', Url.getParameterByName('pers'))
-  : !Storage.exist('pers') ? Storage.set('pers', '8') : null;
+  ? Storage.exists('pers') ? Storage.delete('pers') && Storage.set('pers', Url.getParameterByName('pers')) : Storage.set('pers', Url.getParameterByName('pers'))
+  : !Storage.exists('pers') ? Storage.set('pers', '8') : null;
 
 
 // update the cookie if it exists, if it doesn't, create a new one, lasting 2 years
@@ -46,14 +46,14 @@ if(axios){
         if(newPers != oldPers){
 
           const currentDate = new Date();
-          const newDate = new Date(+Storage.get('time'));
-          newDate.setDate(newDate.getDay()-oldPers+newPers);
+          const newDate = new Date(Storage.get('time'));
+          newDate.setDate(newDate.getDate()-oldPers+newPers);
 
           if(currentDate.getTime() < newDate.getTime()){
             Storage.delete('pers');
             Storage.delete('time');
             Storage.set('pers', newPers);
-            Storage.set('time', newDate.getTime().toString());
+            Storage.set('time', newDate.toISOString());
           } else {
             Storage.clear();
           }
