@@ -31,10 +31,6 @@ Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParamete
 Storage.setUtms();
 
 if(typeof axios!='undefined'){
-  axios.get(Config.iphost).then(function (response){
-    Storage.exists('ip') ? Storage.delete('ip') : null;
-    Storage.set('ip',`${response.data.ip}`)
-  })
 
   if(Storage.exists('c')){
     const c = Storage.get('c');
