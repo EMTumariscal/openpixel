@@ -51,11 +51,11 @@ class Storage {
     }
 
     static clear(){
-      var locals = ['utm','a','b','c','e','pers','time'];
+      var locals = ['utm','a','b','c','e','pers','time', 'uid', 'lu', 'lk', 'au', 'ak'];
       var item = '';
       for (var i = 0, l = locals.length; i < l; i++) {
         item = locals[i];
-        this.delete(item);
+        this.exists(item) ? this.delete(item) : null;
       }
     }
 }
