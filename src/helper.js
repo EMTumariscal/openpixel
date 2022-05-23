@@ -25,6 +25,11 @@ class Helper {
           "b":Storage.get('b'),
           "c":Storage.get('c'),
           "e":Storage.get('e'),
+          "cu": Storage.exists('cu') ? Storage.get('cu') : '',
+          "au": Storage.exists('au') ? Storage.get('au') : '',
+          "ak": Storage.exists('ak') ? Storage.get('ak') : '',
+          "lu": Storage.exists('lu') ? Storage.get('lu') : '',
+          "lk": Storage.exists('lk') ? Storage.get('lk') : '',
         });
       } else {
         return '';
