@@ -1,6 +1,6 @@
 
 // uid y persistence remplazar si existe en parametros o crear default
-Helper.isPresent(Url.getParameterByName('uid')) ? Storage.set('uid', Url.getParameterByName('uid')) : Storage.exists('uid') ? null : Storage.set('uid', Helper.guid());
+Helper.isPresent(Url.getParameterByName('uid')) ? Storage.set('uid', Url.getParameterByName('uid')) : Storage.exists('uid') ? null : Storage.setS('uid', Helper.guid());
 Helper.isPresent(Url.getParameterByName('pers')) ? Storage.set('pers', Url.getParameterByName('pers')) : Storage.exists('pers') ? null : Storage.set('pers', '1');
 
 // check a-b-e cookies remplazar si existe en parametros
@@ -8,11 +8,6 @@ Helper.isPresent(Url.getParameterByName('a')) ? Storage.set('a', Url.getParamete
 Helper.isPresent(Url.getParameterByName('b')) ? Storage.set('b', Url.getParameterByName('b')) : null;
 Helper.isPresent(Url.getParameterByName('c')) ? Storage.set('c', Url.getParameterByName('c')) : null;
 Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParameterByName('e')) : null;
-
-Helper.isPresent(Url.getParameterByName('lu')) ? Storage.set('lu', Url.getParameterByName('lu')) : null;
-Helper.isPresent(Url.getParameterByName('lk')) ? Storage.set('lk', Url.getParameterByName('lk')) : null;
-Helper.isPresent(Url.getParameterByName('au')) ? Storage.set('au', Url.getParameterByName('au')) : null;
-Helper.isPresent(Url.getParameterByName('ak')) ? Storage.set('ak', Url.getParameterByName('ak')) : null;
 
 // crear tiempo de vida, en base a la persistence
 Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clear() : null ) : Storage.set('time', Helper.createTime());

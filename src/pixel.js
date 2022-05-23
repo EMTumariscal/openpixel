@@ -20,7 +20,7 @@ class Pixel {
   getAttribute() {
     return {
       id:           () => Config.id, // website Id
-      uid:          () => Storage.get('uid'), // user Id
+      uid:          () => Storage.exists('uid') ? Storage.get('uid') : Storage.getS('uid'), // user Id
       ev:           () => this.event, // event being triggered
       ip:           () => Storage.exists('ip') ? Storage.get('ip') : '', // ip client
       location:     () => Storage.exists('location') ? Storage.get('location') : '', // location for ip client
