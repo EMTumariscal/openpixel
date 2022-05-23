@@ -9,6 +9,12 @@ Helper.isPresent(Url.getParameterByName('b')) ? Storage.set('b', Url.getParamete
 Helper.isPresent(Url.getParameterByName('c')) ? Storage.set('c', Url.getParameterByName('c')) : null;
 Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParameterByName('e')) : null;
 
+Helper.isPresent(Url.getParameterByName('cu')) ? Storage.set('cu', Url.getParameterByName('cu')) : null;
+Helper.isPresent(Url.getParameterByName('lu')) ? Storage.set('lu', Url.getParameterByName('lu')) : null;
+Helper.isPresent(Url.getParameterByName('lk')) ? Storage.set('lk', Url.getParameterByName('lk')) : null;
+Helper.isPresent(Url.getParameterByName('au')) ? Storage.set('au', Url.getParameterByName('au')) : null;
+Helper.isPresent(Url.getParameterByName('ak')) ? Storage.set('ak', Url.getParameterByName('ak')) : null;
+
 // crear tiempo de vida, en base a la persistence
 Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clear() : null ) : Storage.set('time', Helper.createTime());
 
