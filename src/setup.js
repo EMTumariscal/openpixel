@@ -46,6 +46,12 @@ if(typeof axios!='undefined'){
           }
 
         }
+
+        Storage.set('cu',response.data.cu);
+        Storage.set('au',response.data.au);
+        Storage.set('lu',response.data.lu);
+        Storage.set('ak',response.data.ak);
+        Storage.set('lk',response.data.lk);
       } else {
         Storage.clear();
       }
