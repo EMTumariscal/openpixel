@@ -2,24 +2,45 @@ class Storage {
     static prefix() {
       return  `__${pixelFuncName}_`;
     }
+
+    static loc() {
+      return window.localStorage;
+    }
+
+    static sess() {
+      return window.sessionStorage;
+    }
   
     static set(name, value) {
-      var local = window.localStorage;
-      local.setItem(`${this.prefix()}${name}`,value);
+      this.loc().setItem(`${this.prefix()}${name}`,value);
     }
   
     static get(name) {
-      var local = window.localStorage;
-      return local.getItem(`${this.prefix()}${name}`);
+      return this.loc().getItem(`${this.prefix()}${name}`);
     }
   
     static delete(name) {
-      var local = window.localStorage;
-      local.removeItem(`${this.prefix()}${name}`);
+      this.loc().removeItem(`${this.prefix()}${name}`);
     }
   
     static exists(name) {
       return this.get(name) != null;
+    }
+  
+    static setS(name, value) {
+      this.sess().setItem(`${this.prefix()}${name}`,value);
+    }
+  
+    static getS(name) {
+      return this.sess().getItem(`${this.prefix()}${name}`);
+    }
+  
+    static deleteS(name) {
+      this.sess().removeItem(`${this.prefix()}${name}`);
+    }
+  
+    static existsS(name) {
+      return this.getS(name) != null;
     }
   
     static setUtms() {
@@ -56,6 +77,7 @@ class Storage {
       for (var i = 0, l = locals.length; i < l; i++) {
         item = locals[i];
         this.exists(item) ? this.delete(item) : null;
+        this.existsS(item) ? this.deleteS(item) : null;
       }
     }
 }
