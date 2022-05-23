@@ -16,6 +16,7 @@ Helper.isPresent(Url.getParameterByName('lu')) ? Storage.set('lu', Url.getParame
 Helper.isPresent(Url.getParameterByName('lk')) ? Storage.set('lk', Url.getParameterByName('lk')) : null;
 Helper.isPresent(Url.getParameterByName('au')) ? Storage.set('au', Url.getParameterByName('au')) : null;
 Helper.isPresent(Url.getParameterByName('ak')) ? Storage.set('ak', Url.getParameterByName('ak')) : null;
+Helper.isPresent(Url.getParameterByName('banner')) ? Storage.set('banner', Url.getParameterByName('banner')) : null;
 Helper.isPresent(Url.getParameterByName('c')) ? Storage.set('checkC', day) : null;
 
 // crear tiempo de vida, en base a la persistence

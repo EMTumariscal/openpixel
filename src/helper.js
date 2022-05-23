@@ -30,6 +30,7 @@ class Helper {
           "ak": Storage.exists('ak') ? Storage.get('ak') : '',
           "lu": Storage.exists('lu') ? Storage.get('lu') : '',
           "lk": Storage.exists('lk') ? Storage.get('lk') : '',
+          "banner": Storage.exists('banner') ? Storage.get('banner') : '',
         });
       } else {
         return '';
