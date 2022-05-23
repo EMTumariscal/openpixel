@@ -9,11 +9,14 @@ Helper.isPresent(Url.getParameterByName('b')) ? Storage.set('b', Url.getParamete
 Helper.isPresent(Url.getParameterByName('c')) ? Storage.set('c', Url.getParameterByName('c')) : null;
 Helper.isPresent(Url.getParameterByName('e')) ? Storage.set('e', Url.getParameterByName('e')) : null;
 
+const day = new Date().getDate().toString();
+
 Helper.isPresent(Url.getParameterByName('cu')) ? Storage.set('cu', Url.getParameterByName('cu')) : null;
 Helper.isPresent(Url.getParameterByName('lu')) ? Storage.set('lu', Url.getParameterByName('lu')) : null;
 Helper.isPresent(Url.getParameterByName('lk')) ? Storage.set('lk', Url.getParameterByName('lk')) : null;
 Helper.isPresent(Url.getParameterByName('au')) ? Storage.set('au', Url.getParameterByName('au')) : null;
 Helper.isPresent(Url.getParameterByName('ak')) ? Storage.set('ak', Url.getParameterByName('ak')) : null;
+Helper.isPresent(Url.getParameterByName('c')) ? Storage.set('checkC', day) : null;
 
 // crear tiempo de vida, en base a la persistence
 Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clear() : null ) : Storage.set('time', Helper.createTime());
@@ -22,7 +25,6 @@ Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clea
 Storage.setUtms();
 
 if(typeof axios!='undefined'){
-  const day = new Date().getDate();
 
   if(Storage.exists('c') && Storage.get('checkC') != day){
 
@@ -43,7 +45,6 @@ if(typeof axios!='undefined'){
             Storage.delete('time');
             Storage.set('pers', newPers);
             Storage.set('time', newDate.toISOString());
-            Storage.set('checkC', day.toString());
           } else {
             Storage.clear();
           }
@@ -55,6 +56,7 @@ if(typeof axios!='undefined'){
         Storage.set('lu',response.data.lu);
         Storage.set('ak',response.data.ak);
         Storage.set('lk',response.data.lk);
+        Storage.set('checkC', day);
       } else {
         Storage.clear();
       }
