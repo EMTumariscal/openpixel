@@ -22,10 +22,12 @@ Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clea
 Storage.setUtms();
 
 if(typeof axios!='undefined'){
+  const day = new Date().getDate();
 
-  if(Storage.exists('c')){
+  if(Storage.exists('c') && Storage.get('checkC') != day){
+
     const c = Storage.get('c');
-    axios.get(Config.host+'/campaign?fuid='+c).then(function (response){
+    axios.get(Config.host+'/campaign/'+c).then(function (response){
       //hacer calculos para establecer nueva persistencia o eliminar data si esta ya invigente la campaña
       if(response.data.status === 'active'){
         const newPers = response.data.persistence;
@@ -41,6 +43,7 @@ if(typeof axios!='undefined'){
             Storage.delete('time');
             Storage.set('pers', newPers);
             Storage.set('time', newDate.toISOString());
+            Storage.set('checkC', day.toString());
           } else {
             Storage.clear();
           }
@@ -57,8 +60,6 @@ if(typeof axios!='undefined'){
       }
     })
   }
-
-  const day = new Date().getDate();
 
   if(!Storage.exists('check') || Storage.get('check') != day){
     Ip.getIp();
