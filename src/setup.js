@@ -22,6 +22,9 @@ Helper.isPresent(Url.getParameterByName('c')) ? Storage.set('checkC', day) : nul
 // crear tiempo de vida, en base a la persistence
 Storage.exists('time') ? ( Helper.timeDelete(Storage.get('time')) ? Storage.clear() : null ) : Storage.set('time', Helper.createTime());
 
+// crear variable de sessioin
+Storage.existsS('session') ? null : Storage.setS('session', Helper.gsuid());
+
 // save any utms through as session cookies
 Storage.setUtms();
 

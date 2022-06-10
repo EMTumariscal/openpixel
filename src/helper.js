@@ -31,6 +31,7 @@ class Helper {
           "lu": Storage.exists('lu') ? Storage.get('lu') : '',
           "lk": Storage.exists('lk') ? Storage.get('lk') : '',
           "banner": Storage.exists('banner') ? Storage.get('banner') : '',
+          "session": Storage.existsS('session') ? Storage.getS('session') : ''
         });
       } else {
         return '';
@@ -58,5 +59,9 @@ class Helper {
   static timeDelete(time){
     const date = new Date().getTime();
     return +time < date;
+  }
+
+  static gsuid() {
+    return (1 * new Date()).toString(36);
   }
 }
