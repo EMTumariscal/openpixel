@@ -48,7 +48,7 @@ class Helper {
                   }
                 }
 
-                if (sales.length === 0) {
+                if (sales.length === 0 && klass !== '') {
                   const klasses = document.getElementsByClassName(klass)
                   
                   if (klasses.length > 0) {
@@ -66,6 +66,51 @@ class Helper {
             }
           }
         }
+
+        if (au !== '' && sale === '') {
+          const aurl = JSON.parse(Helper.recoveryString(au));
+
+          if (typeof aurl['url'] === 'string'){
+            const ur = aurl
+            const url = ur['secure'] + '://' + (ur.url[ur.url.length - 1]==='/' ? ur['url'].substring(0,ur.url.length - 2) : ur['url']);
+            const durl = window.location.href;
+
+            if (durl.includes(url)) {
+              const id = ur.id ? ur.id : '';
+              const klass = ur["class"] ? ur["class"] : '';
+              const sales = [];
+
+              if (id !== '') {
+                const getId = document.getElementById(id);
+
+                if (getId){
+                  const html = getId.innerHTML
+                    .replace(/<[^<>]*>/g,'')
+
+                  sales.push(html)
+                }
+              }
+
+              if (sales.length === 0 && klass !== '') {
+                const klasses = document.getElementsByClassName(klass)
+                
+                if (klasses.length > 0) {
+                  for (let j = 0; j < klasses.length; j++) {
+                    const c = klasses[j];
+                    const html = c.innerHTML
+                      .replace(/<[^<>]*>/g,'')
+                      sales.push(html)
+                  }
+                }
+              }
+              
+              if (sales.length > 0) {
+                sale = sales.toString().replace(/\\n/g,'')
+              }
+            }
+          }
+        }
+        
         return Helper.optionalData({
           "a":Storage.get('a'),
           "b":Storage.get('b'),
