@@ -1,6 +1,10 @@
 
 // uid y persistence remplazar si existe en parametros o crear default
-Helper.isPresent(Url.getParameterByName('uid')) ? Storage.set('uid', Url.getParameterByName('uid')) : Storage.exists('uid') ? null : Storage.existsS('uid') ? null : Storage.setS('uid', Helper.guid());
+Helper.isPresent(Url.getParameterByName('uid')) 
+  ? Storage.exists('uid') ? null : Storage.set('uid', Url.getParameterByName('uid'))
+  : Storage.exists('uid') ? null : Storage.existsS('uid')
+    ? null : Storage.setS('uid', Helper.guid());
+
 Helper.isPresent(Url.getParameterByName('pers')) ? Storage.set('pers', Url.getParameterByName('pers')) : Storage.exists('pers') ? null : Storage.set('pers', '1');
 
 // check a-b-e cookies remplazar si existe en parametros
