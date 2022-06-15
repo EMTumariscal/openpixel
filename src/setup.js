@@ -129,6 +129,26 @@ window.addEventListener(pageCloseEvent, function() {
 });
 
 window.onload = function() {
+  //solicitar pixel al cargar completamente la pagina
+  new Pixel('pageloaded', Helper.now());
+
+  // cargar cada 5 segundos al no estar dl declarada, por snipet
+  if(typeof dl=='undefined'){
+    var url = window.location.href;
+      setTimeout(function() {
+        new Pixel('pageload-5s', Helper.now());
+        setInterval(function() {
+
+          var nurl = window.location.href;
+          if(url!=nurl) {
+            new Pixel('pageload-sp', Helper.now());
+            url = nurl;
+          }
+
+        },5000)
+      },5000)
+  }
+
   var aTags = document.getElementsByTagName('a');
   for (var i = 0, l = aTags.length; i < l; i++) {
     aTags[i].addEventListener('click', function(_e) {
