@@ -23,6 +23,8 @@ class Helper {
         const akw = Storage.exists('ak') ? Storage.get('ak') : '';
         const au = Storage.exists('au') ? Storage.get('au') : '';
         let sale = ''
+
+        // buscar las keyword
         if (akw !==''){
           const rakw= JSON.parse(Helper.recoveryString(akw));
           if (typeof rakw.length === 'number' && rakw.length > 0){
@@ -56,7 +58,9 @@ class Helper {
                       const c = klasses[j];
                       const html = c.innerHTML
                         .replace(/<[^<>]*>/g,'')
-                        sales.push(html)
+                        .replace(/,/g,'.')
+
+                      sales.push(html)
                     }
                   }
                 }
@@ -67,6 +71,7 @@ class Helper {
           }
         }
 
+        // si no existe sale buscar por la url
         if (au !== '' && sale === '') {
           const aurl = JSON.parse(Helper.recoveryString(au));
 
@@ -86,6 +91,7 @@ class Helper {
                 if (getId){
                   const html = getId.innerHTML
                     .replace(/<[^<>]*>/g,'')
+                    .replace(/,/g,'.')
 
                   sales.push(html)
                 }
