@@ -35,37 +35,8 @@ class Helper {
               if (url.includes(keyword)) {
                 var id = k.id ? k.id : '';
                 var klass = k["class"] ? k["class"] : '';
-                var sales = [];
 
-                if (id !== '') {
-                  const getId = document.getElementById(id);
-
-                  if (getId){
-                    const html = getId.innerHTML
-                      .replace(/<[^<>]*>/g,'')
-
-                    sales.push(html)
-                  } else {
-                    console.log('soy nulo')
-                  }
-                }
-
-                if (sales.length === 0 && klass !== '') {
-                  const klasses = document.getElementsByClassName(klass)
-                  
-                  if (klasses.length > 0) {
-                    for (let j = 0; j < klasses.length; j++) {
-                      const c = klasses[j];
-                      const html = c.innerHTML
-                        .replace(/<[^<>]*>/g,'')
-                        .replace(/,/g,'.')
-
-                      sales.push(html)
-                    }
-                  }
-                }
-
-                sale = sales.toString().replace(/\\n/g,'')
+                sale = Helper.getSale(id, klass)
               }
             }
           }
@@ -83,36 +54,8 @@ class Helper {
             if (durl.includes(url)) {
               const id = ur.id ? ur.id : '';
               const klass = ur["class"] ? ur["class"] : '';
-              const sales = [];
 
-              if (id !== '') {
-                const getId = document.getElementById(id);
-
-                if (getId){
-                  const html = getId.innerHTML
-                    .replace(/<[^<>]*>/g,'')
-                    .replace(/,/g,'.')
-
-                  sales.push(html)
-                }
-              }
-
-              if (sales.length === 0 && klass !== '') {
-                const klasses = document.getElementsByClassName(klass)
-                
-                if (klasses.length > 0) {
-                  for (let j = 0; j < klasses.length; j++) {
-                    const c = klasses[j];
-                    const html = c.innerHTML
-                      .replace(/<[^<>]*>/g,'')
-                      sales.push(html)
-                  }
-                }
-              }
-              
-              if (sales.length > 0) {
-                sale = sales.toString().replace(/\\n/g,'')
-              }
+              sale = Helper.getSale(id, klass);
             }
           }
         }
@@ -176,4 +119,59 @@ class Helper {
       .replace(/_quote_/g, '"')
       .replace(/_bslash_/g, '\\');
   };
+
+  static getSale(id,klass){
+    const sales = [];
+    if (id !== '') {
+      const getId = document.getElementById(id);
+
+      if (getId){
+        const html = getId.innerHTML
+          .replace(/<[^<>]*>/g,'')
+
+        sales.push(html)
+      } else {
+        console.log('soy nulo')
+      }
+    }
+
+    if (sales.length === 0 && klass !== '') {
+      const separa = klass.split('/');
+      if (separa.length === 1) { 
+        const klasses = document.getElementsByClassName(klass)
+        
+        if (klasses.length > 0) {
+          for (let j = 0; j < klasses.length; j++) {
+            const c = klasses[j];
+            const html = c.innerHTML
+              .replace(/<[^<>]*>/g,'')
+              .replace(/,/g,'.')
+
+            sales.push(html)
+          }
+        }
+      } else if (separa.length > 1) {
+        const klasses = document.getElementsByClassName(separa[0]);
+        
+        if (klasses.length > 0) {
+          
+          if (klasses[0].children.length > 0) {
+            for (let i = 0; i < klasses[0].children.length; i++) {
+              const element = klasses[0].children[i];
+              if (element.localName === separa[1]) {
+                sales.push(element.textContent.replace(/\$/g,'').replace(/,/g,'.'));
+              };
+            }
+          }
+        }
+      }
+    }
+
+    if (sales.length > 0) {
+      return sales.toString().replace(/\\n/g, '');
+    }
+
+    return '';
+    
+  }
 }
