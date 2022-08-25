@@ -34,6 +34,7 @@ Storage.setUtms();
 
 if(typeof axios!='undefined'){
 
+  //obtener los datos de las cmapañas
   if(Storage.exists('c') && Storage.get('checkC') != day){
 
     const c = Storage.get('c');
@@ -71,6 +72,20 @@ if(typeof axios!='undefined'){
     })
   }
 
+  //obtener los datos del sitio multisitio
+  if (Config.id.includes('-')) {
+    const site = window.location.href.split('/')[2];
+    axios.get(Config.host+'/site/multi/'+site).then(function (response){
+      const campaigns = response.data;
+      Storage.set('campaigns', JSON.stringify(campaigns));
+    })
+  }
+
+  if (!Storage.exists('c')) {
+
+  }
+
+  //obtener los datos de la ip y ubicacion
   if(!Storage.exists('check') || Storage.get('check') != day){
     Ip.getIp();
   }
