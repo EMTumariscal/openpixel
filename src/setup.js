@@ -133,21 +133,20 @@ window.onload = function() {
   new Pixel('pageloaded', Helper.now());
 
   // cargar cada 5 segundos al no estar dl declarada, por snipet
+  var url2 = window.location.href;
   if(typeof dl=='undefined'){
-    var url = window.location.href;
-      setTimeout(function() {
-        new Pixel('pageload-5s', Helper.now());
-        setInterval(function() {
-
-          var nurl = window.location.href;
-          if(url!=nurl) {
-            new Pixel('pageload-sp', Helper.now());
-            url = nurl;
-          }
-
-        },5000)
-      },5000)
+    setTimeout(function() {
+      new Pixel('pageload-5s', Helper.now());
+    },5000);
   }
+
+  setInterval(function() {
+    var nurl = window.location.href;
+    if (url2!=nurl) {
+      new Pixel('pageload-sp', Helper.now());
+      url2 = nurl;
+    }
+  },1823);
 
   var aTags = document.getElementsByTagName('a');
   for (var i = 0, l = aTags.length; i < l; i++) {
