@@ -72,17 +72,25 @@ if(typeof axios!='undefined'){
     })
   }
 
+  // obtener los datos para los click organicos
+  if (!Storage.exists('c') && Storage.get('checkO')) {
+    const site = window.location.href.split('/')[2];
+    axios.get(Config.host+'/site/only/'+site).then(function (response){
+      const campaigns = response.data;
+      Storage.set('campaigns', JSON.stringify(campaigns));
+      Storage.set('checkO', day);
+    })
+  }
+
+
   //obtener los datos del sitio multisitio
-  if (Config.id.includes('-')) {
+  if (Config.id.includes('-') && Storage.get('checkM') != day) {
     const site = window.location.href.split('/')[2];
     axios.get(Config.host+'/site/multi/'+site).then(function (response){
       const campaigns = response.data;
       Storage.set('campaigns', JSON.stringify(campaigns));
+      Storage.set('checkM', day);
     })
-  }
-
-  if (!Storage.exists('c')) {
-
   }
 
   //obtener los datos de la ip y ubicacion
