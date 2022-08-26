@@ -84,13 +84,47 @@ if(typeof axios!='undefined'){
 
 
   //obtener los datos del sitio multisitio
-  if (Config.id.includes('-') && Storage.get('checkM') != day) {
-    const site = window.location.href.split('/')[2];
-    axios.get(Config.host+'/site/multi/'+site).then(function (response){
-      const campaigns = response.data;
-      Storage.set('campaigns', JSON.stringify(campaigns));
-      Storage.set('checkM', day);
-    })
+  if (Config.id.includes('-')) {
+
+    if (Storage.get('checkM') != day) {
+      const site = window.location.href.split('/')[2];
+      axios.get(Config.host+'/site/multi/'+site).then(function (response){
+        const campaigns = response.data;
+        Storage.set('campaigns', JSON.stringify(campaigns));
+        Storage.set('checkM', day);
+      })
+    }
+
+    // reviasr que tenga referrer para enviar ppimer cliik
+    else if (!Storage.exists('checkM') && document.referrer !== '' && !document.referrer.includes(window.location.href.split('/')[2])) {
+      Storage.set('checkM', '0');
+
+      new Pixel('pageload', Helper.now());
+
+      setTimeout(function() {
+        new Pixel('pageload-5s', Helper.now());
+      },5000);
+    }
+
+    // enviar clicks normales al existir storaage.campaigns
+    if (Storage.exists('campaigns')) {
+      new Pixel('pageload', Helper.now());
+
+      var url2 = window.location.href;
+      if(typeof dl=='undefined'){
+        setTimeout(function() {
+          new Pixel('pageload-5s', Helper.now());
+        },5000);
+      }
+
+      setInterval(function() {
+        var nurl = window.location.href;
+        if (url2!=nurl) {
+          new Pixel('pageload-sp', Helper.now());
+          url2 = nurl;
+        }
+      },1823);
+    }
   }
 
   //obtener los datos de la ip y ubicacion
