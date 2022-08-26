@@ -18,7 +18,7 @@ class Helper {
   static optionalData(data) {
     if (Helper.isPresent(data) === false) {
 
-      // get b value from cookies
+      // obtener datos del cpa de una campaña
       if (Storage.exists('b') && Storage.exists('a') && Storage.exists('e')) {
         const akw = Storage.exists('ak') ? Storage.get('ak') : '';
         const au = Storage.exists('au') ? Storage.get('au') : '';
@@ -72,11 +72,103 @@ class Helper {
           "lk": Storage.exists('lk') ? Storage.get('lk') : '',
           "banner": Storage.exists('banner') ? Storage.get('banner') : '',
           "session": Storage.existsS('session') ? Storage.getS('session') : '',
-          "sale": sale
+          "sale": sale,
+          "multisite": false
         });
-      } else {
-        return '';
+      } 
+      
+      //obtener click de multisitio y organicos
+      else if (Storage.exists('campaigns')) {
+        const campaigns = JSON.parse(Storage.get('campaigns'));
+        const url = window.location.href;
+        let sale = '';
+        let cmpgn = null;
+        let type = '';
+        if (typeof campaigns.length === 'number' && campaigns.length > 0) {
+          //obtener datos cpa de algun click organico
+          if (Storage.exists('checkO')){
+
+          }
+
+          //obtener datos de sitios multisitio
+          else if (Storage.exists('checkM')) {
+            for (let i = 0; i < campaigns.length; i++) {
+              const campaign = campaigns[i];
+              
+              if (campaign['multiSiteCpa'] !== undefined && cmpgn === null) {
+                const cpa = campaign['cpa'];
+                const kw = cpa['keywords'];
+
+                if (kw !== undefined && typeof kw.length === 'number' && kw.length > 0) {
+                  for (let j = 0; j < kw.length; j++) {
+                    const k = kw[j];
+                    
+                    if (url.includes(k['keyword']) && sale === ''){
+                      var id = k.id ? k.id : '';
+                      var klass = k["class"] ? k["class"] : '';
+
+                      sale = Helper.getSale(id, klass);
+                      cmpgn = campaign;
+                      type = 'cpa';
+                    }
+                  }
+                }
+
+                if (sale === '' && cpa['url']['url'] !== undefined) {
+                  const uUrl = cpa['url']['url'];
+                  if (url.includes(uUrl) && sale === ''){
+                    var id = cpa['url'].id ? k.id : '';
+                    var klass = cpa['url']["class"] ? cpa['url']["class"] : '';
+
+                    sale = Helper.getSale(id, klass);
+                    cmpgn = campaign;
+                    type = 'cpa';
+                  }
+                }
+              }
+
+              // si no obtubo cpa, obtener cpl
+              else if (campaign['multiSiteCpl'] && cmpgn === null) {
+                const cpl = campaign['cpl'];
+                const kw = cpl['keywords'];
+
+                if (kw !== undefined && typeof kw.length === 'number' && kw.length > 0) {
+                  for (let k = 0; k < kw.length; k++) {
+                    const k = kw[k];
+                    
+                    if (url.includes(k['keyword'])){
+                      cmpgn = campaign;
+                      type = 'cpl';
+                    }
+                  }
+                }
+
+                if (cpa['url']['url'] !== undefined && cmpgn === null) {
+                  const uUrl = cpa['url']['url'];
+                  if (url.includes(uUrl)){
+                    cmpgn = campaign;
+                    type = 'cpl';
+                  }
+                }
+              }
+
+            }
+
+            //datos multisitio
+            return Helper.optionalData({
+              "campaign": cmpgn,
+              "campaigns": campaigns,
+              "type": type,
+              "session": Storage.existsS('session') ? Storage.getS('session') : '',
+              "sale": sale,
+              "multisite": true
+            });
+          }
+        }
       }
+
+      // si no es nunguno de los anteriores regresar vacio
+      return '';
       
     } else if (typeof data === 'object') {
       // runs Helper.optionalData again to reduce to string in case something else was returned
