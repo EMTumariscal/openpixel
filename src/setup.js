@@ -1,7 +1,7 @@
 
 // uid y persistence remplazar si existe en parametros o crear default
 Helper.isPresent(Url.getParameterByName('uid')) 
-  ? Storage.exists('uid') ? null : Storage.set('uid', Url.getParameterByName('uid'))
+  ? Storage.set('uid', Url.getParameterByName('uid'))
   : Storage.exists('uid') ? null : Storage.existsS('uid')
     ? null : Storage.setS('uid', Helper.guid());
 
