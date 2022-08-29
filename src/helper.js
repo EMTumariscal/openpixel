@@ -128,7 +128,7 @@ class Helper {
               }
 
               // si no obtubo cpa, obtener cpl
-              else if (campaign['multiSiteCpl'] && cmpgn === null) {
+              if (campaign['multiSiteCpl'] && cmpgn === null) {
                 const cpl = campaign['cpl'];
                 const kw = cpl['keywords'];
 
@@ -161,7 +161,8 @@ class Helper {
               "type": type,
               "session": Storage.existsS('session') ? Storage.getS('session') : '',
               "sale": sale,
-              "multisite": true
+              "multisite": true,
+              "referrer": Storage.exists('referrer') ? Storage.get('referrer') : '',
             });
           }
         }
