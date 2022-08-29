@@ -96,16 +96,47 @@ if(typeof axios!='undefined'){
     }
 
     // reviasr que tenga referrer para enviar ppimer cliik
-    else if (!Storage.exists('checkM') && document.referrer !== '' && !document.referrer.includes(window.location.href.split('/')[2])) {
+    if (!Storage.exists('referrer') && document.referrer !== '' && !document.referrer.includes(window.location.href.split('/')[2])) {
       Storage.set('checkM', '0');
+      Storage.set('referrer', document.referrer);
 
       new Pixel('pageload', Helper.now());
 
       setTimeout(function() {
         new Pixel('pageload-5s', Helper.now());
       },5000);
+
+      //enmviar pixeltrack si cambia de url 
+      var url2 = window.location.href;
+      setInterval(function() {
+        var nurl = window.location.href;
+        if (url2!=nurl) {
+          new Pixel('pageload-sp', Helper.now());
+          url2 = nurl;
+        }
+      },1823);
     }
 
+    //si existe variable de referrer continuar con la enviadera de informacion
+    else if (Storage.exists('referrer')) {
+      var url2 = window.location.href;
+
+      new Pixel('pageload', Helper.now());
+
+      setTimeout(function() {
+        new Pixel('pageload-5s', Helper.now());
+      },5000);
+
+      //enmviar pixeltrack si cambia de url
+      var url2 = window.location.href;
+      setInterval(function() {
+        var nurl = window.location.href;
+        if (url2!=nurl) {
+          new Pixel('pageload-sp', Helper.now());
+          url2 = nurl;
+        }
+      },1823);
+    }
     // enviar clicks normales al existir storaage.campaigns
     if (Storage.exists('campaigns')) {
       new Pixel('pageload', Helper.now());
