@@ -79,12 +79,17 @@ class Helper {
       
       //obtener click de multisitio y organicos
       else if (Storage.exists('campaigns')) {
-        const campaigns = JSON.parse(Storage.get('campaigns'));
+        const campaignsStorage = JSON.parse(Storage.get('campaigns'));
         const url = window.location.href;
         let sale = '';
         let cmpgn = null;
         let type = '';
+        const referrer = Storage.exists('referrer') ? Storage.get('referrer') : null;
+
         if (typeof campaigns.length === 'number' && campaigns.length > 0) {
+          //obtener campaigns en base al referrer
+          const campaigns = referrer ? campaignsStorage.filter(c => c.cpc.url.url.includes(referrer.split('/')[2])) : campaignsStorage;
+          
           //obtener datos cpa de algun click organico
           if (Storage.exists('checkO')){
 
