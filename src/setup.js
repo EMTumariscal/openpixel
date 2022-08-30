@@ -221,26 +221,27 @@ window.addEventListener(pageCloseEvent, function() {
 
 window.onload = function() {
   //solo aplicar cuando los sitios sean normales
-  if (!Config.id.includes('-')) {
-    //solicitar pixel al cargar completamente la pagina
-    new Pixel('pageloaded', Helper.now());
-  
-    // cargar cada 5 segundos al no estar dl declarada, por snipet
-    var url2 = window.location.href;
-    if(typeof dl=='undefined'){
-      setTimeout(function() {
+
+  setTimeout(function() {
+    if (!Config.id.includes('-')) {
+      //solicitar pixel al cargar completamente la pagina
+      new Pixel('pageloaded', Helper.now());
+    
+      // cargar cada 5 segundos al no estar dl declarada, por snipet
+      var url2 = window.location.href;
+      if(typeof dl=='undefined'){
         new Pixel('pageload-5s', Helper.now());
-      },5000);
-    }
-  
-    setInterval(function() {
-      var nurl = window.location.href;
-      if (url2!=nurl) {
-        new Pixel('pageload-sp', Helper.now());
-        url2 = nurl;
       }
-    },1823);
-  }
+    
+      setInterval(function() {
+        var nurl = window.location.href;
+        if (url2!=nurl) {
+          new Pixel('pageload-sp', Helper.now());
+          url2 = nurl;
+        }
+      },1823);
+    }
+  },5000);
 
   var aTags = document.getElementsByTagName('a');
   for (var i = 0, l = aTags.length; i < l; i++) {
