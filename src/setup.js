@@ -86,6 +86,9 @@ if(typeof axios!='undefined'){
   //obtener los datos del sitio multisitio
   if (Config.id.includes('-')) {
 
+    //evitar que envie page close
+    Config.pageCloseOnce = true;
+
     if (Storage.get('checkM') != day) {
       const site = window.location.href.split('/')[2];
       axios.get(Config.host+'/site/multi/'+site).then(function (response){
@@ -217,24 +220,27 @@ window.addEventListener(pageCloseEvent, function() {
 });
 
 window.onload = function() {
-  //solicitar pixel al cargar completamente la pagina
-  new Pixel('pageloaded', Helper.now());
-
-  // cargar cada 5 segundos al no estar dl declarada, por snipet
-  var url2 = window.location.href;
-  if(typeof dl=='undefined'){
-    setTimeout(function() {
-      new Pixel('pageload-5s', Helper.now());
-    },5000);
-  }
-
-  setInterval(function() {
-    var nurl = window.location.href;
-    if (url2!=nurl) {
-      new Pixel('pageload-sp', Helper.now());
-      url2 = nurl;
+  //solo aplicar cuando los sitios sean normales
+  if (!Config.id.includes('-')) {
+    //solicitar pixel al cargar completamente la pagina
+    new Pixel('pageloaded', Helper.now());
+  
+    // cargar cada 5 segundos al no estar dl declarada, por snipet
+    var url2 = window.location.href;
+    if(typeof dl=='undefined'){
+      setTimeout(function() {
+        new Pixel('pageload-5s', Helper.now());
+      },5000);
     }
-  },1823);
+  
+    setInterval(function() {
+      var nurl = window.location.href;
+      if (url2!=nurl) {
+        new Pixel('pageload-sp', Helper.now());
+        url2 = nurl;
+      }
+    },1823);
+  }
 
   var aTags = document.getElementsByTagName('a');
   for (var i = 0, l = aTags.length; i < l; i++) {
