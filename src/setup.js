@@ -208,7 +208,7 @@ var isPageHideSupported = 'onpageshow' in self;
 var pageCloseEvent = isPageHideSupported && !isSafari ? 'pagehide' : 'unload';
 
 window.addEventListener(pageCloseEvent, function() {
-  if (!Config.pageCloseOnce) {
+  if (!Config.pageCloseOnce && !Config.id.includes('-')) {
     Config.pageCloseOnce = true;
     new Pixel('pageclose', Helper.now(), function() {
       // if a link was clicked in the last 5 seconds that goes to an external host, pass it through as event data
