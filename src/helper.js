@@ -139,17 +139,17 @@ class Helper {
 
                 if (kw !== undefined && typeof kw.length === 'number' && kw.length > 0) {
                   for (let k = 0; k < kw.length; k++) {
-                    const k = kw[k];
+                    const key = kw[k];
                     
-                    if (url.includes(k['keyword'])){
+                    if (url.includes(key['keyword'])){
                       cmpgn = campaign;
                       type = 'cpl';
                     }
                   }
                 }
 
-                if (cpa['url']['url'] !== undefined && cmpgn === null) {
-                  const uUrl = cpa['url']['url'];
+                if (cpl['url']['url'] !== undefined && cmpgn === null) {
+                  const uUrl = cpl['url']['url'];
                   if (url.includes(uUrl)){
                     cmpgn = campaign;
                     type = 'cpl';
