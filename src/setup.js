@@ -82,85 +82,6 @@ if(typeof axios!='undefined'){
     })
   }
 
-
-  //obtener los datos del sitio multisitio
-  if (Config.id.includes('-')) {
-
-    //evitar que envie page close
-    Config.pageCloseOnce = true;
-
-    if (Storage.get('checkM') != day) {
-      const site = window.location.href.split('/')[2];
-      axios.get(Config.host+'/site/multi/'+site).then(function (response){
-        const campaigns = response.data;
-        Storage.set('campaigns', JSON.stringify(campaigns));
-        Storage.set('checkM', day);
-      })
-    }
-
-    // reviasr que tenga referrer para enviar ppimer cliik
-    if (!Storage.exists('referrer') && document.referrer !== '' && !document.referrer.includes(window.location.href.split('/')[2])) {
-      Storage.set('checkM', '0');
-      Storage.set('referrer', document.referrer);
-
-      new Pixel('pageload', Helper.now());
-
-      setTimeout(function() {
-        new Pixel('pageload-5s', Helper.now());
-      },5000);
-
-      //enmviar pixeltrack si cambia de url 
-      var url2 = window.location.href;
-      setInterval(function() {
-        var nurl = window.location.href;
-        if (url2!=nurl) {
-          new Pixel('pageload-sp', Helper.now());
-          url2 = nurl;
-        }
-      },1823);
-    }
-
-    //si existe variable de referrer continuar con la enviadera de informacion
-    else if (Storage.exists('referrer')) {
-      var url2 = window.location.href;
-
-      new Pixel('pageload', Helper.now());
-
-      setTimeout(function() {
-        new Pixel('pageload-5s', Helper.now());
-      },5000);
-
-      //enmviar pixeltrack si cambia de url
-      var url2 = window.location.href;
-      setInterval(function() {
-        var nurl = window.location.href;
-        if (url2!=nurl) {
-          new Pixel('pageload-sp', Helper.now());
-          url2 = nurl;
-        }
-      },1823);
-    }
-    // enviar clicks normales al existir storaage.campaigns
-    if (Storage.exists('campaigns')) {
-      new Pixel('pageload', Helper.now());
-
-      var url2 = window.location.href;
-      if(typeof dl=='undefined'){
-        setTimeout(function() {
-          new Pixel('pageload-5s', Helper.now());
-        },5000);
-      }
-
-      setInterval(function() {
-        var nurl = window.location.href;
-        if (url2!=nurl) {
-          new Pixel('pageload-sp', Helper.now());
-          url2 = nurl;
-        }
-      },1823);
-    }
-  }
-
   //obtener los datos de la ip y ubicacion
   if(!Storage.exists('check') || Storage.get('check') != day){
     Ip.getIp();
@@ -222,7 +143,7 @@ window.addEventListener(pageCloseEvent, function() {
 window.onload = function() {
   //solo aplicar cuando los sitios sean normales
 
-  setTimeout(function() {
+    //clicks normales
     if (!Config.id.includes('-')) {
       //solicitar pixel al cargar completamente la pagina
       new Pixel('pageloaded', Helper.now());
@@ -230,7 +151,9 @@ window.onload = function() {
       // cargar cada 5 segundos al no estar dl declarada, por snipet
       var url2 = window.location.href;
       if(typeof dl=='undefined'){
-        new Pixel('pageload-5s', Helper.now());
+        setTimeout(function() {
+          new Pixel('pageload-5s', Helper.now());
+        },5000);
       }
     
       setInterval(function() {
@@ -241,7 +164,85 @@ window.onload = function() {
         }
       },1823);
     }
-  },5000);
+
+    //obtener los datos del sitio multisitio
+    else if (Config.id.includes('-')) {
+      var day = new Date().getDate().toString();
+      //evitar que envie page close
+      Config.pageCloseOnce = true;
+
+      if (Storage.get('checkM') != day) {
+        const site = window.location.href.split('/')[2];
+        axios.get(Config.host+'/site/multi/'+site).then(function (response){
+          const campaigns = response.data;
+          Storage.set('campaigns', JSON.stringify(campaigns));
+          Storage.set('checkM', day);
+          new Pixel('pageload', Helper.now());
+        })
+      }
+
+      // reviasr que tenga referrer para enviar ppimer cliik
+      if (!Storage.exists('referrer') && document.referrer !== '' && !document.referrer.includes(window.location.href.split('/')[2])) {
+        Storage.set('checkM', '0');
+        Storage.set('referrer', document.referrer);
+
+        new Pixel('pageload', Helper.now());
+
+        setTimeout(function() {
+          new Pixel('pageload-5s', Helper.now());
+        },5000);
+
+        //enmviar pixeltrack si cambia de url 
+        var url2 = window.location.href;
+        setInterval(function() {
+          var nurl = window.location.href;
+          if (url2!=nurl) {
+            new Pixel('pageload-sp', Helper.now());
+            url2 = nurl;
+          }
+        },1823);
+      }
+
+      //si existe variable de referrer continuar con la enviadera de informacion
+      else if (Storage.exists('referrer')) {
+        var url2 = window.location.href;
+
+        new Pixel('pageload', Helper.now());
+
+        setTimeout(function() {
+          new Pixel('pageload-5s', Helper.now());
+        },5000);
+
+        //enmviar pixeltrack si cambia de url
+        var url2 = window.location.href;
+        setInterval(function() {
+          var nurl = window.location.href;
+          if (url2!=nurl) {
+            new Pixel('pageload-sp', Helper.now());
+            url2 = nurl;
+          }
+        },1823);
+      }
+      // enviar clicks normales al existir storaage.campaigns
+      if (Storage.exists('campaigns')) {
+        new Pixel('pageload', Helper.now());
+
+        var url2 = window.location.href;
+        if(typeof dl=='undefined'){
+          setTimeout(function() {
+            new Pixel('pageload-5s', Helper.now());
+          },5000);
+        }
+
+        setInterval(function() {
+          var nurl = window.location.href;
+          if (url2!=nurl) {
+            new Pixel('pageload-sp', Helper.now());
+            url2 = nurl;
+          }
+        },1823);
+      }
+    }
 
   var aTags = document.getElementsByTagName('a');
   for (var i = 0, l = aTags.length; i < l; i++) {
