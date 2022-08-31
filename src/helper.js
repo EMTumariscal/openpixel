@@ -119,7 +119,8 @@ class Helper {
                   }
                 }
 
-                if (sale === '' && cpa['url']['url'] !== undefined) {
+                //encontrar click desde url si no se encontro en kwords
+                if (cpa['url']['url'] !== undefined && cpa['url']['url'].includes('/') && cmpgn === null) {
                   const uUrl = cpa['url']['url'];
                   if (url.includes(uUrl) && sale === ''){
                     var id = cpa['url'].id ? k.id : '';
@@ -148,7 +149,8 @@ class Helper {
                   }
                 }
 
-                if (cpl['url']['url'] !== undefined && cmpgn === null) {
+                //obtener cpl desde la url si no se encontro anteriormente
+                if (cpl['url']['url'] !== undefined && cpl['url']['url'].includes('/') && cmpgn === null) {
                   const uUrl = cpl['url']['url'];
                   if (url.includes(uUrl)){
                     cmpgn = campaign;
