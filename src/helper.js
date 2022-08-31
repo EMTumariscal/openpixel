@@ -86,7 +86,7 @@ class Helper {
         let type = '';
         const referrer = Storage.exists('referrer') ? Storage.get('referrer') : null;
 
-        if (typeof campaigns.length === 'number' && campaigns.length > 0) {
+        if (typeof campaignsStorage.length === 'number' && campaignsStorage.length > 0) {
           //obtener campaigns en base al referrer
           const campaigns = referrer ? campaignsStorage.filter(c => c.cpc.url.url.includes(referrer.split('/')[2])) : campaignsStorage;
           
