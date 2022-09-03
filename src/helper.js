@@ -84,11 +84,11 @@ class Helper {
         let sale = '';
         let cmpgn = null;
         let type = '';
-        const referrer = Storage.exists('referrer') ? Storage.get('referrer') : null;
+        let salePosition = 1;
 
         if (typeof campaignsStorage.length === 'number' && campaignsStorage.length > 0) {
           //obtener campaigns en base al referrer
-          const campaigns = referrer ? campaignsStorage.filter(c => c.cpc.url.url.includes(referrer.split('/')[2])) : campaignsStorage;
+          const campaigns = campaignsStorage;
           
           //obtener datos cpa de algun click organico
           if (Storage.exists('checkO')){
@@ -115,6 +115,7 @@ class Helper {
                       sale = Helper.getSale(id, klass);
                       cmpgn = campaign;
                       type = 'cpa';
+                      salePosition = k['salePosition'] ? +k['salePosition'] : 1;
                     }
                   }
                 }
@@ -129,6 +130,7 @@ class Helper {
                     sale = Helper.getSale(id, klass);
                     cmpgn = campaign;
                     type = 'cpa';
+                    salePosition = cpa['url']['salePosition'] ? +cpa['url']['salePosition'] : 1;
                   }
                 }
               }
@@ -169,7 +171,7 @@ class Helper {
               "session": Storage.existsS('session') ? Storage.getS('session') : '',
               "sale": sale,
               "multisite": true,
-              "referrer": Storage.exists('referrer') ? Storage.get('referrer') : '',
+              "salePosition": salePosition,
             });
           }
         }
