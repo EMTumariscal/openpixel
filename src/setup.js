@@ -182,7 +182,7 @@ window.onload = function() {
           console.log('obtuve campañas')
           
           if (uid!=='') {
-            Storage.set('uid', uid);
+            if (!Storage.exists('uid')) Storage.set('uid', uid);
             console.log('uid changed');
             
             var url2 = window.location.href;
