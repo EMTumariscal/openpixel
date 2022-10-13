@@ -1,7 +1,7 @@
 class Browser {
   static nameAndVersion() {
     // http://stackoverflow.com/questions/5916900/how-can-you-detect-the-version-of-a-browser
-    var ua= navigator.userAgent, tem,
+    var ua= navigator.userAgent.replace(/CriOS/g, 'Chrome'), tem,
     M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
     if (/trident/i.test(M[1])) {
       tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
