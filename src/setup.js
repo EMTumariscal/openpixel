@@ -163,6 +163,78 @@ window.onload = function() {
           url2 = nurl;
         }
       },1823);
+
+      //revisar cada 800 ms si hay cpa
+      if (Storage.exists('uid') && Storage.get('uid')[0] === 'S' && Storage.exists('b') && Storage.exists('a') && Storage.exists('e')) {
+        
+        // obtener datos del cpa de una campaña
+        const akw = Storage.exists('ak') ? Storage.get('ak') : '';
+        const au = Storage.exists('au') ? Storage.get('au') : '';
+        let sale = '';
+        let count = 0;
+
+        if (akw !=='' || au !== '') {
+        
+          setInterval(function() {
+  
+            // buscar las keyword
+            if (sale === ''){
+              const rakw= JSON.parse(Helper.recoveryString(akw));
+              if (typeof rakw.length === 'number' && rakw.length > 0){
+                const url = window.location.href
+                for (let i = 0; i < rakw.length; i++) {
+                  const k = rakw[i];
+                  const keyword = k.keyword
+                  if (url.includes(keyword)) {
+                    var id = k.id ? k.id : '';
+                    var klass = k["class"] ? k["class"] : '';
+  
+                    sale = Helper.getSale(id, klass)
+                  }
+                }
+              }
+            }
+  
+            // si no existe sale buscar por la url
+            if (sale === '') {
+              const aurl = JSON.parse(Helper.recoveryString(au));
+  
+              if (typeof aurl['url'] === 'string'){
+                const ur = aurl
+                const url = ur['secure'] + '://' + (ur.url[ur.url.length - 1]==='/' ? ur['url'].substring(0,ur.url.length - 2) : ur['url']);
+                const durl = window.location.href;
+  
+                if (durl.includes(url)) {
+                  const id = ur.id ? ur.id : '';
+                  const klass = ur["class"] ? ur["class"] : '';
+  
+                  sale = Helper.getSale(id, klass);
+                }
+              }
+            }
+            
+            if (sale !== '' && count < 18) {
+              count ++;
+              new Pixel('pageloaded', Helper.now(), {
+                "a":Storage.get('a'),
+                "b":Storage.get('b'),
+                "c":Storage.get('c'),
+                "e":Storage.get('e'),
+                "cu": Storage.exists('cu') ? Storage.get('cu') : '',
+                "au": au,
+                "ak": akw,
+                "lu": Storage.exists('lu') ? Storage.get('lu') : '',
+                "lk": Storage.exists('lk') ? Storage.get('lk') : '',
+                "banner": Storage.exists('banner') ? Storage.get('banner') : '',
+                "session": Storage.existsS('session') ? Storage.getS('session') : '',
+                "sale": sale,
+                "multisite": false
+              });
+            }
+          }, 800);
+
+        }
+      }
     }
 
     //obtener los datos del sitio multisitio
@@ -209,7 +281,7 @@ window.onload = function() {
 
       // enviar clicks normales al existir storaage.campaigns
       if (Storage.exists('campaigns') && Storage.exists('uid')) {
-        console.log('envio clicks normales, solo cerrar nel pastel')
+
         new Pixel('pageload', Helper.now());
 
         var url2 = window.location.href;
