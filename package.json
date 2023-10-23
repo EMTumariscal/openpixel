@@ -20,7 +20,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "gulp": "./node_modules/.bin/gulp",
     "dist": "gulp build",
-    "watch": "gulp watch"
+    "copy:prod": "cp -f ./dist/openpixel.min.js ../trakmarket-admin/dist/assets/js/openpixel.min.js", 
+    "copy:dev": "cp -f ./dist/openpixel.js ../trakmarket-admin/dist/assets/js/openpixel.js", 
+    "watch": "gulp watch",
+    "build:prod": "npm run dist && npm run copy:prod",
+    "build:dev": "npm run dist && npm run copy:dev"
   },
   "repository": {
     "type": "git",
