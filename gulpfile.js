@@ -10,10 +10,10 @@ var DESTINATION_FOLDER = process.env.OPIX_DESTINATION_FOLDER || './dist';
 var PIXEL_FUNC_NAME    = process.env.OPIX_PIXEL_FUNC_NAME || 'opix';
 
 // The remote URL of the pixel.gif file that will be pinged by the browser to send tracking information
-var PIXEL_ENDPOINT     = process.env.OPIX_PIXEL_ENDPOINT || 'https://us-central1-trakmarket-prod.cloudfunctions.net/pixel';
+var PIXEL_ENDPOINT     = process.env.OPIX_PIXEL_ENDPOINT || 'https://trakmkt.com/pixel';
 
 // The core openpixel.min.js file that the snippet will loaded asynchronously into the browser
-var JS_ENDPOINT        = process.env.OPIX_JS_ENDPOINT || 'https://trakmarket-prod.web.app/assets/js/openpixel.min.js';
+var JS_ENDPOINT        = process.env.OPIX_JS_ENDPOINT || 'https://trakmkt.com/assets/js/openpixel.js';
 
 // The current version of your openpixel configuration
 var VERSION            = process.env.OPIX_VERSION || '1';

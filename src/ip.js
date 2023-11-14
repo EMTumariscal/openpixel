@@ -15,7 +15,7 @@ class Ip {
   }
 
   static existsIp(ip){
-    axios.get(Config.host+'/ip/'+ip).then(function (response) {
+    axios.get(Config.datahost+'/ip/'+ip).then(function (response) {
       const info = response.data;
       if (info != '') {
 
@@ -65,7 +65,7 @@ class Ip {
   }
 
   static saveIpInfo(info){
-    axios.post(Config.host+'/ip',info).then(function (response) {
+    axios.post(Config.datahost+'/ip',info).then(function (response) {
 
         const city = info.city;
         const region = info.region;

@@ -38,7 +38,7 @@ if(typeof axios!='undefined'){
   if(Storage.exists('c') && Storage.get('checkC') != day){
 
     const c = Storage.get('c');
-    axios.get(Config.host+'/campaign/'+c).then(function (response){
+    axios.get(Config.datahost+'/campaign/'+c).then(function (response){
       //hacer calculos para establecer nueva persistencia o eliminar data si esta ya invigente la campaña
       if(response.data.status === 'active'){
         const newPers = response.data.persistence;
@@ -75,7 +75,7 @@ if(typeof axios!='undefined'){
   // obtener los datos para los click organicos
   if (!Storage.exists('c') && Storage.get('checkO')) {
     const site = window.location.href.split('/')[2];
-    axios.get(Config.host+'/site/only/'+site).then(function (response){
+    axios.get(Config.datahost+'/site/only/'+site).then(function (response){
       const campaigns = response.data;
       Storage.set('campaigns', JSON.stringify(campaigns));
       Storage.set('checkO', day);
@@ -179,7 +179,7 @@ window.onload = function() {
           setInterval(function() {
   
             // buscar las keyword
-            if (sale === ''){
+            if (sale === '' && akw !==''){
               const rakw= JSON.parse(Helper.recoveryString(akw));
               if (typeof rakw.length === 'number' && rakw.length > 0){
                 const url = window.location.href
@@ -197,7 +197,7 @@ window.onload = function() {
             }
   
             // si no existe sale buscar por la url
-            if (sale === '') {
+            if (sale === '' && au !== '') {
               const aurl = JSON.parse(Helper.recoveryString(au));
   
               if (typeof aurl['url'] === 'string'){
@@ -246,7 +246,7 @@ window.onload = function() {
 
       if (Storage.get('checkM') != day) {
         const site = window.location.href.split('/')[2];
-        axios.get(Config.host+'/site/multi/'+site+'?ua='+Browser.userAgent()).then(function (response){
+        axios.get(Config.datahost+'/site/multi/'+site+'?ua='+Browser.userAgent()).then(function (response){
           const campaigns = response.data.campaigns;
           const uid = response.data.uid;
           Storage.set('campaigns', JSON.stringify(campaigns));
